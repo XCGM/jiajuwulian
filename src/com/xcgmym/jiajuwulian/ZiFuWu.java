@@ -19,6 +19,7 @@ public class ZiFuWu
 	{
 		socket = arg;
 		ziFuWuJianTing = zfwjt;
+		System.out.println("获取一个新连接");
 		try
 		{
 			inputStream = socket.getInputStream();

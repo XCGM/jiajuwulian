@@ -21,7 +21,7 @@
 		<!-- Create the distribution directory -->
 		<mkdir dir="${dist}/lib"/>
 		<!-- Put everything in ${build} into the MayProject-${DSTAMP}.jar file -->
-		<jar jarfile="${dist}/lib/jiajuwulian" basedir="${build}"/>
+		<jar jarfile="${dist}/lib/jiajuwulian.jar" basedir="${build}"/>
 	</target>
 	<target name="clean" description="clean up">
 		<!-- Delete the ${build} and ${dist} directory trees -->
