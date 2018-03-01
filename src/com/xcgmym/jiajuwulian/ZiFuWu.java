@@ -65,6 +65,11 @@ public class ZiFuWu
 						if(count == 0)
 						{
 							tmp = inputStream.read();
+							if(tmp == -1)
+							{
+								System.out.println("设备断线");
+								close();
+							}
 						}
 					}
 				}catch(IOException ioe)

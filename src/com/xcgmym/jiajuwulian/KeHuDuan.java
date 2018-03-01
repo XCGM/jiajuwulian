@@ -35,7 +35,7 @@ public class KeHuDuan
 			{
 				try
 				{
-					outputStream.write("Hello, test!".getBytes());
+					outputStream.write("Hello, test!\n".getBytes());
 					outputStream.flush();
 				}catch(IOException ioe)
 				{
@@ -77,11 +77,11 @@ public class KeHuDuan
 	public static void main(String[] arg)
 	{
 		KeHuDuan keHuDuan = new KeHuDuan();
-		while(keHuDuan.isContinue)
+	//	while(keHuDuan.isContinue)
 		{
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(5000);
 			}catch(InterruptedException ie)
 			{
 			}
