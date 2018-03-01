@@ -60,6 +60,12 @@ public class ZiFuWu
 								res[i] = (byte)tmp;
 							}
 						}
+						count = inputStream.available();
+						//尝试读一个字节确定是否断线
+						if(count == 0)
+						{
+							tmp = inputStream.read();
+						}
 					}
 				}catch(IOException ioe)
 				{

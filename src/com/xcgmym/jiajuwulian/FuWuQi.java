@@ -15,7 +15,7 @@ public class FuWuQi implements ZiFuWuJianTing
 	{
 		try
 		{
-			System.out.println("这是一个服务器程序，即将打开6000端口监听");
+			System.out.println("这是一个服务器程序，即将打开6001端口监听");
 			serverSocket = new ServerSocket(6001);
 		}catch(IOException ioe)
 		{
