@@ -70,7 +70,7 @@ public class FuWuQi implements ZiFuWuJianTing
 	public void huoQuDao(byte[] arg)
 	{
 		System.out.println("获取到一个包");
-		System.out.println("arg:"+arg);
+		System.out.println("arg:"+arg.toString());
 	}
 
 	public static void main(String[] args)

@@ -35,7 +35,7 @@ public class KeHuDuan
 			{
 				try
 				{
-					outputStream.write("{\"abc\":\"nihao\",\"state\":\"hello\"}\n".getBytes());
+					outputStream.write("{\"abc\":\"nihao\",\"state\":\"hello\"}".getBytes());
 					outputStream.flush();
 				}catch(IOException ioe)
 				{
