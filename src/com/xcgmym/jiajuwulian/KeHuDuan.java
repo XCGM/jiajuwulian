@@ -77,6 +77,7 @@ public class KeHuDuan
 	public static void main(String[] arg)
 	{
 		KeHuDuan keHuDuan = new KeHuDuan();
+		System.out.println(new String("欢迎测试".getBytes()));
 	//	while(keHuDuan.isContinue)
 		{
 			try
