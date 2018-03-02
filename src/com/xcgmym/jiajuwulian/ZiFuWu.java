@@ -49,15 +49,10 @@ public class ZiFuWu
 						for(int i=0; i<count; i++)
 						{
 							tmp = inputStream.read();
-							if(tmp == '\n')
+							res[i] = (byte)tmp;
+							if(ziFuWuJianTing != null)
 							{
-								if(ziFuWuJianTing != null)
-								{
-									ziFuWuJianTing.huoQuDao(res);
-								}
-							}else
-							{
-								res[i] = (byte)tmp;
+								ziFuWuJianTing.huoQuDao(res);
 							}
 						}
 						count = inputStream.available();
