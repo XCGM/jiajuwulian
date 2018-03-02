@@ -50,10 +50,10 @@ public class ZiFuWu
 						{
 							tmp = inputStream.read();
 							res[i] = (byte)tmp;
-							if(ziFuWuJianTing != null)
-							{
-								ziFuWuJianTing.huoQuDao(res);
-							}
+						}
+						if(ziFuWuJianTing != null)
+						{
+							ziFuWuJianTing.huoQuDao(res);
 						}
 						count = inputStream.available();
 						//尝试读一个字节确定是否断线
