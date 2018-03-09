@@ -1,6 +1,8 @@
 # jiajuwulian
 20180309
-
+正式加入JSON，开始使用JSON来处理通信，
+定义了YongHu，Jiedian两个类，还要定义Shebei，在SheBei下要有Diandeng,LED等子类
+要写一个后台程序，用于添加和绑定设备，或者用户界面，来添加或绑定设备
 20180302
 开始Json格式数据的处理,
 可以参考Json-java的内容，学习使用Json
