@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.json.JSONObject;
 
 public class KeHuDuan
 {
@@ -19,6 +20,7 @@ public class KeHuDuan
 	public KeHuDuan()
 	{
 		System.out.println("打开");
+
 		try
 		{
 			socket = new Socket("www.xcgmym.com", 6000);
@@ -35,8 +37,13 @@ public class KeHuDuan
 			{
 				try
 				{
-					outputStream.write("{\"abc\":\"nihao\",\"state\":\"hello\"}".getBytes());
+					JSONObject json = new JSONObject();
+					json.put("BianHao", "123");
+					json.put("FaSongGei", "0");
+					json.put("MingLing", "DengLu");
+					outputStream.write(json.toString().getBytes());
 					outputStream.flush();
+					System.out.println("Json: "+new JSONObject(json.toString()).toString());
 				}catch(IOException ioe)
 				{
 					System.out.println("FaSongShiBaituichu");

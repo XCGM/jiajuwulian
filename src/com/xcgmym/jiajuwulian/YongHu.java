@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class YongHu
 {
@@ -76,6 +78,7 @@ public class YongHu
 
 	private void mingLing(byte[] arg)
 	{
+		JSONObject json = new JSONObject(new String(arg));
 	}
 
 	public void close()
