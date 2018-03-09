@@ -2,23 +2,26 @@ package com.xcgmym.jiajuwulian;
 
 import java.net.ServerSocket;
 import java.io.IOException;
-import java.nio.channels.IllegalBlockingModeException;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.nio.channels.IllegalBlockingModeException;
 
-public class FuWuQi implements YongHuJianTing
+public class FuWuQi implements YongHuJianTing, JieDianJianTing
 {
 	private ServerSocket yongHuFuWu = null;
 	private ServerSocket jieDianFuWu = null;
-	private Timer timer = null;
+	private Timer yongHuTimer = null;
+	private Timer jieDianTimer = null;
 	private Map<String, YongHu> yongHuJiHe = null;
 	private Map<String, JieDian> jieDianJiHe = null;
 
 	public FuWuQi()
 	{
 		yongHuJiHe = new HashMap<String, YongHu>();
+		jieDianJiHe = new HashMap<String, JieDian>();
+
 		try
 		{
 			System.out.println("这是一个服务器程序，即将打开6000端口监听用户");
@@ -36,8 +39,9 @@ public class FuWuQi implements YongHuJianTing
 			System.out.println("iae:"+iae.toString());
 		}
 		
-		timer = new Timer("ServerSocket", true);
-		timer.schedule(new TimerTask()
+		yongHuTimer = new Timer("ServerSocket", true);
+		jieDianTimer = new Timer("jieDianFuWu", true);
+		yongHuTimer.schedule(new TimerTask()
 				{
 					public void run()
 					{
@@ -56,13 +60,36 @@ public class FuWuQi implements YongHuJianTing
 						}					
 					}
 				}, 100, 100);
+		jieDianTimer.schedule(new TimerTask()
+				{
+					public void run()
+					{
+						try
+						{
+							new JieDian(jieDianFuWu.accept(), FuWuQi.this);
+						}catch(IOException ioe)
+						{
+							System.out.println("打开输入输出失败:"+ioe.toString());
+						}catch(SecurityException see)
+						{
+							System.out.println("security:"+see.toString());
+						}catch(IllegalArgumentException iae)
+						{
+							System.out.println("iae:"+iae.toString());
+						}					
+					}
+				}, 100, 100);
 	}
 
 	public void close()
 	{
-		if(timer != null)
+		if(yongHuTimer != null)
 		{
-			timer.cancel();
+			yongHuTimer.cancel();
+		}
+		if(jieDianTimer != null)
+		{
+			jieDianTimer.cancel();
 		}
 		if(yongHuFuWu != null)
 		{
@@ -79,16 +106,30 @@ public class FuWuQi implements YongHuJianTing
 	public void yongHuMingLing(String arg)
 	{
 	}
-	public void yongHuShangXian(String id)
+	public void yongHuShangXian(String id, YongHu yh)
 	{
+		yongHuJiHe.put(id, yh);
 	}
 	public void yongHuXiaXian(String id)
 	{
+		yongHuJiHe.remove(id);
+	}
+
+	public void jieDianMingLing(String arg)
+	{
+	}
+	public void yongHuShangXian(String id, JieDian jd)
+	{
+		jieDianJiHe.put(id, jd);
+	}
+	public void jieDianXiaXian(String id)
+	{
+		jieDianJiHe.remove(id);
 	}
 
 	public static void main(String[] args)
 	{
-		new FuWuQi();
+		FuWuQi fwq = new FuWuQi();
 		while(true)
 		{
 			try
