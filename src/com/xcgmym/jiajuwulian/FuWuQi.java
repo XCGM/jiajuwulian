@@ -1,22 +1,30 @@
 package com.xcgmym.jiajuwulian;
 
 import java.net.ServerSocket;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.io.IOException;
 import java.nio.channels.IllegalBlockingModeException;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class FuWuQi implements ZiFuWuJianTing
+public class FuWuQi implements YongHuJianTing
 {
-	private ServerSocket serverSocket = null;
+	private ServerSocket yongHuFuWu = null;
+	private ServerSocket jieDianFuWu = null;
 	private Timer timer = null;
+	private Map<String, YongHu> yongHuJiHe = null;
+	private Map<String, JieDian> jieDianJiHe = null;
 
 	public FuWuQi()
 	{
+		yongHuJiHe = new HashMap<String, YongHu>();
 		try
 		{
-			System.out.println("这是一个服务器程序，即将打开6001端口监听");
-			serverSocket = new ServerSocket(6001);
+			System.out.println("这是一个服务器程序，即将打开6000端口监听用户");
+			yongHuFuWu = new ServerSocket(6000);
+			System.out.println("打开6001端口，监听节点");
+			jieDianFuWu = new ServerSocket(6001);
 		}catch(IOException ioe)
 		{
 			System.out.println("打开输入输出失败:"+ioe.toString());
@@ -35,7 +43,7 @@ public class FuWuQi implements ZiFuWuJianTing
 					{
 						try
 						{
-							new ZiFuWu(serverSocket.accept(), FuWuQi.this);
+							new YongHu(yongHuFuWu.accept(), FuWuQi.this);
 						}catch(IOException ioe)
 						{
 							System.out.println("打开输入输出失败:"+ioe.toString());
@@ -56,21 +64,26 @@ public class FuWuQi implements ZiFuWuJianTing
 		{
 			timer.cancel();
 		}
-		if(serverSocket != null)
+		if(yongHuFuWu != null)
 		{
 			try
 			{
-				serverSocket.close();
+				yongHuFuWu.close();
 			}catch(IOException ioe)
 			{
 				
 			}
 		}
 	}
-	public void huoQuDao(byte[] arg)
+
+	public void yongHuMingLing(String arg)
 	{
-		System.out.println("获取到一个包");
-		System.out.println("arg:"+new String(arg));
+	}
+	public void yongHuShangXian(String id)
+	{
+	}
+	public void yongHuXiaXian(String id)
+	{
 	}
 
 	public static void main(String[] args)
