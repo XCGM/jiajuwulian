@@ -21,7 +21,7 @@ public class KeHuDuan
 		System.out.println("打开");
 		try
 		{
-			socket = new Socket("www.xcgmym.com", 6001);
+			socket = new Socket("www.xcgmym.com", 6000);
 			inputStream = socket.getInputStream();
 			outputStream = socket.getOutputStream();
 		}catch(UnknownHostException uhe)

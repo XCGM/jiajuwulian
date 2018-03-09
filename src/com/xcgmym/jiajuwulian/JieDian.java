@@ -21,7 +21,7 @@ public class JieDian
 		socket = arg;
 		jieDianJianTing = jdjt;
 
-		System.out.println("得到一个用户连接");
+		System.out.println("得到一个节点连接");
 
 		try
 		{
