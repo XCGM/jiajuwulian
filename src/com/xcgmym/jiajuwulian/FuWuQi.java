@@ -108,10 +108,12 @@ public class FuWuQi implements YongHuJianTing, JieDianJianTing
 	}
 	public void yongHuShangXian(String id, YongHu yh)
 	{
+		System.out.println("新用户上线，添加到map中:"+id);
 		yongHuJiHe.put(id, yh);
 	}
 	public void yongHuXiaXian(String id)
 	{
+		System.out.println("用户下线，从map中移除:"+id);
 		yongHuJiHe.remove(id);
 	}
 

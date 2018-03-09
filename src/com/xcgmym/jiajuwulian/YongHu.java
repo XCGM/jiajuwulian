@@ -16,7 +16,9 @@ public class YongHu
 	private YongHuJianTing yongHuJianTing = null;
 	private InputStream inputStream = null;
 	private OutputStream outputStream = null;
+
 	private String id;
+	private boolean isDengLu = false;
 
 	public YongHu(Socket arg, YongHuJianTing yhjt)
 	{
@@ -29,6 +31,7 @@ public class YongHu
 		{
 			inputStream = socket.getInputStream();
 			outputStream = socket.getOutputStream();
+
 		}catch(IOException ioe)
 		{
 			System.out.println("获取输入输出流失败");
@@ -55,7 +58,7 @@ public class YongHu
 									tmp = inputStream.read();
 									res[i] = (byte)tmp;
 								}
-								mingLing(res);
+								chuLi(res);
 								count = inputStream.available();
 								if(count == 0)
 								{
@@ -76,9 +79,63 @@ public class YongHu
 				}, 100, 100);
 	}
 
-	private void mingLing(byte[] arg)
+	private void chuLi(byte[] arg)
 	{
 		JSONObject json = new JSONObject(new String(arg));
+		if(isDengLu == false)
+		{
+			JSONObject jsonRes = new JSONObject();
+			jsonRes.put("HuiFu", "QingDengLu");
+			faSong(jsonRes.toString());
+			return;
+		}
+		String qingQiu = "";
+
+		try
+		{
+			qingQiu = json.getString("QingQiu");
+		}catch(JSONException je)
+		{
+			System.out.println("获取Json的请求值错误");
+			return;
+	       	}
+
+		if(qingQiu.equals("DengLu"))
+		{
+			try
+			{
+				id = json.getString("WoShi");
+			}catch(JSONException je)
+			{
+				System.out.println("获取Id的请求值错误");
+				return;
+			}
+
+			if(id == null)
+			{
+				JSONObject jsonRes = new JSONObject();
+				jsonRes.put("HuiFu", "IDWeiKong");
+				return;
+			}
+			if(yongHuJianTing != null)
+			{
+				yongHuJianTing.yongHuShangXian(id, this);
+				return;
+			}
+		}
+	}
+
+	public void faSong(String arg)
+	{
+		try
+		{
+			outputStream.write(arg.getBytes());
+			outputStream.flush();
+		}catch(IOException ioe)
+		{
+			System.out.println("设备"+id+"异常掉线，退出");
+			close();
+		}
 	}
 
 	public void close()
@@ -87,6 +144,7 @@ public class YongHu
 		{
 			timer.cancel();
 		}
+
 		if(inputStream != null)
 		{
 			try
@@ -97,6 +155,7 @@ public class YongHu
 				System.out.println("失败");
 			}
 		}
+
 		if(outputStream != null)
 		{
 			try

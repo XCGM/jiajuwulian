@@ -3,6 +3,10 @@
 正式加入JSON，开始使用JSON来处理通信，
 定义了YongHu，Jiedian两个类，还要定义Shebei，在SheBei下要有Diandeng,LED等子类
 要写一个后台程序，用于添加和绑定设备，或者用户界面，来添加或绑定设备
+
+开始使用JSON来整理通信，类似http协议
+客户端连接到服务器后，发送{"QingQiu":"DengLu","WoShi":"xxx"}来登录服务器
+计划加入一个Android客户端项目，进行前后台的同步开发
 20180302
 开始Json格式数据的处理,
 可以参考Json-java的内容，学习使用Json
