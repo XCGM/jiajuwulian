@@ -1,4 +1,7 @@
 # jiajuwulian
+20180312
+在手机上实现设备的模型，服务器仅做转发及管理业务
+
 20180309
 正式加入JSON，开始使用JSON来处理通信，
 定义了YongHu，Jiedian两个类，还要定义Shebei，在SheBei下要有Diandeng,LED等子类
