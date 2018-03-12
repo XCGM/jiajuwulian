@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.nio.channels.IllegalBlockingModeException;
+import org.json.JSONObject;
 
 public class FuWuQi implements YongHuJianTing, JieDianJianTing
 {
@@ -103,8 +104,11 @@ public class FuWuQi implements YongHuJianTing, JieDianJianTing
 		}
 	}
 
-	public void yongHuMingLing(String arg)
+	public void yongHuMingLing(String fsd, String lz, JSONObject ml)
 	{
+		JSONObject json = new JSONObject();
+		JieDian tmp = jieDianJiHe.get(fsd);
+		tmp.faSong(json.toString());
 	}
 	public void yongHuShangXian(String id, YongHu yh)
 	{
@@ -120,7 +124,7 @@ public class FuWuQi implements YongHuJianTing, JieDianJianTing
 	public void jieDianMingLing(String arg)
 	{
 	}
-	public void yongHuShangXian(String id, JieDian jd)
+	public void jieDianShangXian(String id, JieDian jd)
 	{
 		jieDianJiHe.put(id, jd);
 	}

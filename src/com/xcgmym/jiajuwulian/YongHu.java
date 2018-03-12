@@ -82,13 +82,6 @@ public class YongHu
 	private void chuLi(byte[] arg)
 	{
 		JSONObject json = new JSONObject(new String(arg));
-		if(isDengLu == false)
-		{
-			JSONObject jsonRes = new JSONObject();
-			jsonRes.put("HuiFu", "QingDengLu");
-			faSong(jsonRes.toString());
-			return;
-		}
 		String qingQiu = "";
 
 		try
@@ -120,6 +113,43 @@ public class YongHu
 			if(yongHuJianTing != null)
 			{
 				yongHuJianTing.yongHuShangXian(id, this);
+				isDengLu = true;
+				return;
+			}
+		}
+
+		if(isDengLu == false)
+		{
+			JSONObject jsonRes = new JSONObject();
+			jsonRes.put("HuiFu", "QingDengLu");
+			faSong(jsonRes.toString());
+			return;
+		}
+		if(qingQiu.equals("DengChu"))
+		{
+			if(yongHuJianTing != null)
+			{
+				yongHuJianTing.yongHuXiaXian(id);
+				isDengLu = false;
+				return;
+			}
+		}
+
+		if(qingQiu.equals("FaSong"))
+		{
+			String faSongDao = "";
+			String laiZi = "";
+			Object obj = null;
+			try
+			{
+				faSongDao = json.getString("FaSongDao");
+				laiZi = json.getString("WoShi");
+			}catch(JSONException jse)
+			{
+			}
+			if(yongHuJianTing != null)
+			{
+				yongHuJianTing.yongHuMingLing(faSongDao, laiZi, json);
 				return;
 			}
 		}

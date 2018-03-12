@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class JieDian
 {
@@ -15,6 +17,7 @@ public class JieDian
 	private InputStream inputStream = null;
 	private OutputStream outputStream = null;
 	private String id;
+	private boolean isDengLu = false;
 
 	public JieDian(Socket arg, JieDianJianTing jdjt)
 	{
@@ -53,7 +56,7 @@ public class JieDian
 									tmp = inputStream.read();
 									res[i] = (byte)tmp;
 								}
-								mingLing(res);
+								chuLi(res);
 								count = inputStream.available();
 								if(count == 0)
 								{
@@ -74,8 +77,63 @@ public class JieDian
 				}, 100, 100);
 	}
 
-	private void mingLing(byte[] arg)
+	private void chuLi(byte[] arg)
 	{
+		JSONObject json = new JSONObject(new String(arg));
+		String qingQiu = "";
+
+		try
+		{
+			qingQiu = json.getString("QingQiu");
+		}catch(JSONException je)
+		{
+			return;
+		}
+
+		if(qingQiu.equals("DengLu"))
+		{
+			try
+			{
+				id = json.getString("WoShi");
+			}catch(JSONException je)
+			{
+				System.out.println("获取节点ID失败");
+				return;
+			}
+
+			if(id == null)
+			{
+				JSONObject jsonRes = new JSONObject();
+				jsonRes.put("HuiFu", "IDWeiKong");
+				return;
+			}
+			if(jieDianJianTing != null)
+			{
+				jieDianJianTing.jieDianShangXian(id, this);
+				isDengLu = true;
+				return;
+			}
+		}
+		if(isDengLu == false)
+		{
+			JSONObject jsonRes = new JSONObject();
+			jsonRes.put("HuiFu", "QingDengLu");
+			faSong(jsonRes.toString());
+			return;
+		}
+	}
+
+	public void faSong(String arg)
+	{
+		try
+		{
+			outputStream.write(arg.getBytes());
+			outputStream.flush();
+		}catch(IOException ioe)
+		{
+			System.out.println("节点"+id+"异常掉线，退出");
+			close();
+		}
 	}
 
 	public void close()
@@ -107,7 +165,7 @@ public class JieDian
 
 		if(jieDianJianTing!=null)
 		{
-			jieDianJianTing.yongHuXiaXian(id);
+			jieDianJianTing.jieDianXiaXian(id);
 		}
 	}
 }
