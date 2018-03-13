@@ -13,7 +13,6 @@ public class index extends AppCompatActivity implements View.OnClickListener {
     private Button login = null;
     private Button signin = null;
 
-    private MySocket mySocket = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,22 +26,15 @@ public class index extends AppCompatActivity implements View.OnClickListener {
         login.setOnClickListener(this);
         signin.setOnClickListener(this);
 
-        mySocket = new MySocket();
     }
 
     public void onStop()
     {
         super.onStop();
-        if(mySocket != null)
-        {
-            mySocket.close();
-        }
     }
     public void onDestroy()
     {
         super.onDestroy();
-        if(mySocket != null);
-            mySocket.close();
     }
 
     @Override
