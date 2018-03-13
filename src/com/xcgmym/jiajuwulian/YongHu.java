@@ -93,6 +93,7 @@ public class YongHu
 		System.out.println("用户"+id+"收到信息"+new String(arg));
 		JSONObject json = new JSONObject(new String(arg));
 		String qingQiu = "";
+
 		try
 		{
 			qingQiu = json.getString("QingQiu");
@@ -135,12 +136,14 @@ public class YongHu
 			faSong(jsonRes.toString());
 			return;
 		}
+
 		if(qingQiu.equals("DengChu"))
 		{
 			if(yongHuJianTing != null)
 			{
 				yongHuJianTing.yongHuXiaXian(id);
 				isDengLu = false;
+				close();
 				return;
 			}
 		}

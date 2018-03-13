@@ -120,11 +120,28 @@ public class JieDian
 				return;
 			}
 		}
+
 		if(isDengLu == false)
 		{
 			JSONObject jsonRes = new JSONObject();
 			jsonRes.put("HuiFu", "QingDengLu");
 			faSong(jsonRes.toString());
+			return;
+		}
+
+		if(qingQiu.equals("DengChu"))
+		{
+			if(jieDianJianTing != null)
+			{
+				jieDianJianTing.jieDianXiaXian(id);
+				isDengLu = false;
+				close();
+				return;
+			}
+		}
+
+		if(qingQiu.equals("XinTiao"))
+		{
 			return;
 		}
 	}
