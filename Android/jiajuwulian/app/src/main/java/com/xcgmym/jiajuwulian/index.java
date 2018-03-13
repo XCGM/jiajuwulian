@@ -6,12 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class index extends AppCompatActivity implements View.OnClickListener {
 
     private EditText username = null;
     private EditText password = null;
     private Button login = null;
     private Button signin = null;
+    private MySocket mySocket = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class index extends AppCompatActivity implements View.OnClickListener {
         login.setOnClickListener(this);
         signin.setOnClickListener(this);
 
+        mySocket = ((WuLianApplication) this.getApplication()).getMySocket();
     }
 
     public void onStop()
@@ -44,7 +49,27 @@ public class index extends AppCompatActivity implements View.OnClickListener {
 
         if(view == login)
         {
+            if(name.length() == 0)
+            {
+                name = "ceshizhanghao";
+                username.setText(name);
+            }
+            if(pd.length() == 0)
+            {
+                pd = "hello123..";
+                password.setText(pd);
+            }
+            JSONObject json = new JSONObject();
+            try
+            {
+                json.put("QingQiu", "DengLu");
+                json.put("WoShi",name);
+                json.put("MiMa",pd);
+            }catch (JSONException jsone)
+            {
 
+            }
+            mySocket.faSong(json.toString());
         }
         if(view == signin)
         {

@@ -4,7 +4,7 @@ import android.app.Application;
 
 public class WuLianApplication extends Application
 {
-    public MySocket mySocket = null;
+    private MySocket mySocket = null;
 
     public void onCreate()
     {
@@ -12,6 +12,10 @@ public class WuLianApplication extends Application
         mySocket = new MySocket();
     }
 
+    public MySocket getMySocket()
+    {
+        return mySocket;
+    }
     public void onLowMemory()
     {
         super.onLowMemory();

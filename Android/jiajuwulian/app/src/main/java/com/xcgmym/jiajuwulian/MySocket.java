@@ -41,7 +41,7 @@ public class MySocket {
                     close();
                 }
 
-                faSong("{\"QingQiu\":\"DengLu\",\"WoShi\":\"Hello world\"}");
+//                faSong("{\"QingQiu\":\"DengLu\",\"WoShi\":\"Hello world\"}");
             }
         }, 500);
 
@@ -50,7 +50,7 @@ public class MySocket {
             public void run() {
                 xinTiao();
             }
-        }, 10000, 5000);
+        }, 10000, 30000);
     }
 
     public void xinTiao()
