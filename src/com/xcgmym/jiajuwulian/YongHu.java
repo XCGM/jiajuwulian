@@ -40,6 +40,9 @@ public class YongHu
 		}
 
 		timer = new Timer("YongHu", true);
+		/**
+ 		 * 接收 
+ 		 **/
 		timer.schedule(new TimerTask()
 				{
 					int count = 0;
@@ -59,16 +62,6 @@ public class YongHu
 									res[i] = (byte)tmp;
 								}
 								chuLi(res);
-								count = inputStream.available();
-								if(count == 0)
-								{
-									tmp = inputStream.read();
-									if(tmp == -1)
-									{
-										System.out.println("设备断线，退出当前");
-										close();
-									}
-								}
 							}
 						}catch(IOException ioe)
 						{
@@ -76,14 +69,30 @@ public class YongHu
 							close();
 						}
 					}
-				}, 100, 100);
+				}, 10*1000, 100);
+		timer.schedule(new TimerTask()
+			{
+				public void run()
+				{
+					JSONObject json = new JSONObject();
+					try
+					{
+						json.put("HuiFu","XinTiao");
+						faSong(json.toString());
+					}catch(JSONException jsone)
+					{
+						System.out.println("发送心跳包失败，"+id+"掉线");
+						close();
+					}
+				}
+			}, 10*1000, 10*60*1000);
 	}
 
 	private void chuLi(byte[] arg)
 	{
+		System.out.println("用户"+id+"收到信息"+new String(arg));
 		JSONObject json = new JSONObject(new String(arg));
 		String qingQiu = "";
-
 		try
 		{
 			qingQiu = json.getString("QingQiu");
@@ -93,6 +102,7 @@ public class YongHu
 			return;
 	       	}
 
+		System.out.println("用户"+id+"的请求是"+qingQiu);
 		if(qingQiu.equals("DengLu"))
 		{
 			try
@@ -152,6 +162,11 @@ public class YongHu
 				yongHuJianTing.yongHuMingLing(faSongDao, laiZi, json);
 				return;
 			}
+		}
+
+		if(qingQiu.equals("XinTiao"))
+		{
+			return;
 		}
 	}
 

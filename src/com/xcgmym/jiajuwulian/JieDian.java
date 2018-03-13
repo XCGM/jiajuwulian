@@ -57,16 +57,6 @@ public class JieDian
 									res[i] = (byte)tmp;
 								}
 								chuLi(res);
-								count = inputStream.available();
-								if(count == 0)
-								{
-									tmp = inputStream.read();
-									if(tmp == -1)
-									{
-										System.out.println("设备断线，退出当前");
-										close();
-									}
-								}
 							}
 						}catch(IOException ioe)
 						{
@@ -74,7 +64,23 @@ public class JieDian
 							close();
 						}
 					}
-				}, 100, 100);
+				}, 10*1000, 100);
+		timer.schedule(new TimerTask()
+			{
+				public void run()
+				{
+					JSONObject json = new JSONObject();
+					try
+					{
+						json.put("HuiFu","XinTiao");
+						faSong(json.toString());
+					}catch(JSONException jsone)
+					{
+						System.out.println("发送心跳包失败，"+id+"掉线");
+						close();
+					}
+				}
+			}, 10*1000, 10*60*1000);
 	}
 
 	private void chuLi(byte[] arg)
