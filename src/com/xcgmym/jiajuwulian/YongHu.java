@@ -170,6 +170,7 @@ public class YongHu
 
 	public void close()
 	{
+		System.out.println("用户退出");
 		if(timer != null)
 		{
 			timer.cancel();

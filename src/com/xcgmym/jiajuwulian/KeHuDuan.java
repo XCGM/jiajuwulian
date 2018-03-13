@@ -23,7 +23,7 @@ public class KeHuDuan
 
 		try
 		{
-			socket = new Socket("www.xcgmym.com", 6000);
+			socket = new Socket("www.xcgmym.com", 6001);
 			inputStream = socket.getInputStream();
 			outputStream = socket.getOutputStream();
 		}catch(UnknownHostException uhe)
@@ -38,7 +38,8 @@ public class KeHuDuan
 				try
 				{
 					JSONObject json = new JSONObject();
-					json.put("BianHao", "123");
+					json.put("QingQiu", "DengLu");
+					json.put("WoShi", "123");
 					json.put("FaSongGei", "0");
 					json.put("MingLing", "DengLu");
 					outputStream.write(json.toString().getBytes());

@@ -126,10 +126,12 @@ public class FuWuQi implements YongHuJianTing, JieDianJianTing
 	}
 	public void jieDianShangXian(String id, JieDian jd)
 	{
+		System.out.println("新节点上线"+id);
 		jieDianJiHe.put(id, jd);
 	}
 	public void jieDianXiaXian(String id)
 	{
+		System.out.println("节点下线:"+id);
 		jieDianJiHe.remove(id);
 	}
 
