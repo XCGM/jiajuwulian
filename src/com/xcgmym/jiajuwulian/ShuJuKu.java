@@ -52,8 +52,56 @@ public class ShuJuKu
 		{
 			public void run()
 			{
-				
+				execute("select 1");
 			}
 		}, 10000, 3600*1000);
+	}
+
+	public void close()
+	{
+		if(timer != null)
+		{
+			timer.cancel();
+		}
+		if(conn != null)
+		{
+			try
+			{
+				conn.close();
+			}catch(SQLException sqle)
+			{
+				System.out.println("关闭连接失败");
+			}
+		}
+	}
+
+	public boolean zhuCe(String name, String password)
+	{
+		String sql = "INSERT INTO yonghu (mingcheng, password) VALUES ('"+name+"','"+password+"')";
+		return execute(sql);
+	}
+	public boolean execute(String sql)
+	{
+		System.out.println("执行语句："+sql);
+		Statement statement = null;
+		boolean res = false;
+		try
+		{
+			statement = conn.createStatement();
+			res = statement.execute(sql);
+		}catch(SQLException sqle)
+		{
+			System.out.println("执行sql错误");
+		}finally
+		{
+			try
+			{
+				if(statement != null)
+					statement.close();
+			}catch(SQLException sqle1)
+			{
+			}
+		}
+		return res;
 	}
 }

@@ -19,11 +19,13 @@ public class YongHu
 
 	private String id;
 	private boolean isDengLu = false;
+	private ShuJuKu shuJuKu = null;
 
 	public YongHu(Socket arg, YongHuJianTing yhjt)
 	{
 		socket = arg;
 		yongHuJianTing = yhjt;
+		shuJuKu = new ShuJuKu();
 
 		System.out.println("得到一个用户连接");
 
@@ -85,7 +87,7 @@ public class YongHu
 						close();
 					}
 				}
-			}, 10*1000, 10*60*1000);
+			}, 10*1000, 60*1000);
 	}
 
 	private void chuLi(byte[] arg)
@@ -106,9 +108,11 @@ public class YongHu
 		System.out.println("用户"+id+"的请求是"+qingQiu);
 		if(qingQiu.equals("DengLu"))
 		{
+			if(isDengLu)
+				return;
 			try
 			{
-				id = json.getString("WoShi");
+				id = json.getString("MingCheng");
 			}catch(JSONException je)
 			{
 				System.out.println("获取Id的请求值错误");
@@ -127,6 +131,36 @@ public class YongHu
 				isDengLu = true;
 				return;
 			}
+		}
+
+		if(qingQiu.equals("XinTiao"))
+		{
+			return;
+		}
+
+		if(qingQiu.equals("ZhuCe"))
+		{
+			if(isDengLu)
+				return;
+			String miMa = "";
+	
+			try
+			{
+				id = json.getString("MingCheng");
+				miMa = json.getString("MiMa");
+			}catch(JSONException jse)
+			{
+				System.out.println("注册数据有问题");
+				return;
+			}
+			shuJuKu.zhuCe(id, miMa);
+			if(yongHuJianTing != null)
+			{
+				yongHuJianTing.yongHuShangXian(id, this);
+				isDengLu = true;
+				return;
+			}
+			return;
 		}
 
 		if(isDengLu == false)
@@ -151,26 +185,22 @@ public class YongHu
 		if(qingQiu.equals("FaSong"))
 		{
 			String faSongDao = "";
-			String laiZi = "";
+			String mingCheng = "";
 			Object obj = null;
 			try
 			{
 				faSongDao = json.getString("FaSongDao");
-				laiZi = json.getString("WoShi");
+				mingCheng = json.getString("MingCheng");
 			}catch(JSONException jse)
 			{
 			}
 			if(yongHuJianTing != null)
 			{
-				yongHuJianTing.yongHuMingLing(faSongDao, laiZi, json);
+				yongHuJianTing.yongHuMingLing(faSongDao, mingCheng, json);
 				return;
 			}
 		}
 
-		if(qingQiu.equals("XinTiao"))
-		{
-			return;
-		}
 	}
 
 	public void faSong(String arg)
@@ -189,6 +219,10 @@ public class YongHu
 	public void close()
 	{
 		System.out.println("用户退出");
+		if(shuJuKu != null)
+		{
+			shuJuKu.close();
+		}
 		if(timer != null)
 		{
 			timer.cancel();

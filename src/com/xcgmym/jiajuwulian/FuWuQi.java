@@ -17,13 +17,11 @@ public class FuWuQi implements YongHuJianTing, JieDianJianTing
 	private Timer jieDianTimer = null;
 	private Map<String, YongHu> yongHuJiHe = null;
 	private Map<String, JieDian> jieDianJiHe = null;
-	private ShuJuKu shuJuKu = null;
 
 	public FuWuQi()
 	{
 		yongHuJiHe = new HashMap<String, YongHu>();
 		jieDianJiHe = new HashMap<String, JieDian>();
-		shuJuKu = new ShuJuKu();
 
 		try
 		{
