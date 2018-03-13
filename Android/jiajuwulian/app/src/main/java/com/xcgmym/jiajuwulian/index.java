@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,7 +64,7 @@ public class index extends AppCompatActivity implements View.OnClickListener {
             try
             {
                 json.put("QingQiu", "DengLu");
-                json.put("WoShi",name);
+                json.put("MingCheng",name);
                 json.put("MiMa",pd);
             }catch (JSONException jsone)
             {
@@ -73,7 +74,27 @@ public class index extends AppCompatActivity implements View.OnClickListener {
         }
         if(view == signin)
         {
+            if(name.length() == 0)
+            {
+                Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(pd.length() == 0)
+            {
+                Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            JSONObject json = new JSONObject();
+            try
+            {
+                json.put("QingQiu", "ZhuCe");
+                json.put("MingCheng",name);
+                json.put("MiMa",pd);
+            }catch (JSONException jsone)
+            {
 
+            }
+            mySocket.faSong(json.toString());
         }
     }
 }
