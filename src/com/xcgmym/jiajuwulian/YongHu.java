@@ -106,13 +106,16 @@ public class YongHu
 	       	}
 
 		System.out.println("用户"+id+"的请求是"+qingQiu);
+		//登录
 		if(qingQiu.equals("DengLu"))
 		{
 			if(isDengLu)
 				return;
+			String miMa = "";
 			try
 			{
 				id = json.getString("MingCheng");
+				miMa = json.getString("MiMa");
 			}catch(JSONException je)
 			{
 				System.out.println("获取Id的请求值错误");
@@ -125,19 +128,33 @@ public class YongHu
 				jsonRes.put("HuiFu", "IDWeiKong");
 				return;
 			}
-			if(yongHuJianTing != null)
+			
+			if(shuJuKu.login(id, miMa))
 			{
-				yongHuJianTing.yongHuShangXian(id, this);
-				isDengLu = true;
-				return;
+				JSONObject jsonRes = new JSONObject();
+				jsonRes.put("HuiFu", "DengLu");
+				jsonRes.put("NeiRong","ChengGong");
+				faSong(jsonRes.toString());
+				if(yongHuJianTing != null)
+				{
+					yongHuJianTing.yongHuShangXian(id, this);
+					isDengLu = true;
+				}
+			}else
+			{
+				JSONObject jsonRes = new JSONObject();
+				jsonRes.put("HuiFu", "DengLu");
+				jsonRes.put("NeiRong","ShiBai");
+				faSong(jsonRes.toString());
 			}
+			return;
 		}
-
+		//心跳
 		if(qingQiu.equals("XinTiao"))
 		{
 			return;
 		}
-
+		//注册
 		if(qingQiu.equals("ZhuCe"))
 		{
 			if(isDengLu)
@@ -153,13 +170,37 @@ public class YongHu
 				System.out.println("注册数据有问题");
 				return;
 			}
-			shuJuKu.zhuCe(id, miMa);
-			if(yongHuJianTing != null)
+
+			if(shuJuKu.zhuCe(id, miMa))
 			{
-				yongHuJianTing.yongHuShangXian(id, this);
-				isDengLu = true;
-				return;
+				if(yongHuJianTing != null)
+				{
+					yongHuJianTing.yongHuShangXian(id, this);
+					isDengLu = true;
+					return;
+				}
+				JSONObject jsonRes = new JSONObject();
+				try
+				{
+					jsonRes.put("HuiFu", "ZhuCe");
+					jsonRes.put("NeiRong", "ChengGong");
+					faSong(jsonRes.toString());
+				}catch(JSONException jsone)
+				{
+				}
+			}else
+			{
+				JSONObject jsonRes = new JSONObject();
+				try
+				{
+					jsonRes.put("HuiFu", "ZhuCe");
+					jsonRes.put("NeiRong", "ShiBai");
+					faSong(jsonRes.toString());
+				}catch(JSONException jsone)
+				{
+				}
 			}
+
 			return;
 		}
 

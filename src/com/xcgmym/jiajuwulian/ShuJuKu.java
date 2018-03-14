@@ -80,6 +80,7 @@ public class ShuJuKu
 		String sql = "INSERT INTO yonghu (mingcheng, password) VALUES ('"+name+"','"+password+"')";
 		return execute(sql);
 	}
+
 	public boolean execute(String sql)
 	{
 		System.out.println("执行语句："+sql);
@@ -104,4 +105,34 @@ public class ShuJuKu
 		}
 		return res;
 	}
+
+	public boolean login(String arg, String miMa)
+	{
+		String sql = "select bianhao from yonghu where mingcheng='"+arg+"' and password='"+miMa+"'";;
+		System.out.println("执行语句:"+sql);
+		Statement statement = null;
+		boolean res = false;
+
+		try
+		{
+			statement = conn.createStatement();
+			res = statement.executeQuery(sql).first();
+		}catch(SQLException sqle)
+		{
+			res = false;
+			System.out.println("执行Sql失败："+sqle.toString());
+		}finally
+		{
+			try
+			{
+				if(statement != null)
+					statement.close();
+			}catch(SQLException sqle1)
+			{
+			}
+		}
+
+		return res;
+	}
+
 }

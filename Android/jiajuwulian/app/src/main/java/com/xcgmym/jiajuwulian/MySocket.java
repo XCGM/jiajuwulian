@@ -25,6 +25,11 @@ public class MySocket {
     public MySocket()
     {
         timer = new Timer("Socket", true);
+        connect();
+    }
+
+    public void connect()
+    {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -44,7 +49,32 @@ public class MySocket {
 //                faSong("{\"QingQiu\":\"DengLu\",\"WoShi\":\"Hello world\"}");
             }
         }, 500);
+        timer.schedule(new TimerTask() {
+            int count = 0;
+            int tmp = 0;
 
+            @Override
+            public void run()
+            {
+                try
+                {
+                    count = inputStream.available();
+                    if(count > 0)
+                    {
+                        byte[] res = new byte[count];
+                        for(int i=0; i<count; i++)
+                        {
+                            tmp = inputStream.read();
+                            res[i] = (byte)tmp;
+                        }
+                        chuLi(res);
+                    }
+                }catch(IOException ioe)
+                {
+                    reConnect();
+                }
+            }
+        }, 2000, 100);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -65,6 +95,12 @@ public class MySocket {
 
         }
     }
+
+    public void chuLi(byte[] arg)
+    {
+        Log.v("MySocket", new String(arg));
+    }
+
     public void faSong(String arg)
     {
         Log.v("socket", arg);
@@ -74,10 +110,24 @@ public class MySocket {
             outputStream.flush();
         }catch(IOException ioe)
         {
-            close();
+            reConnect();
         }
     }
 
+    public void reConnect()
+    {
+        Log.v("MySocket", "断线重连");
+        close();
+        try
+        {
+            Thread.sleep(1000);
+        }catch(InterruptedException ie)
+        {
+
+        }
+        timer = new Timer("Socket", true);
+        connect();
+    }
     public void close() {
         if(timer != null)
         {
