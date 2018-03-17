@@ -24,6 +24,7 @@ public class ShuJuKu
 
 	public ShuJuKu()
 	{
+		System.out.println("加载数据库驱动");
 		try
 		{
 			Class.forName(JDBC_DRIVER);
