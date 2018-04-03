@@ -6,17 +6,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.Manifest;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
+import android.content.pm.PackageManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class index extends AppCompatActivity implements View.OnClickListener {
+public class Index extends AppCompatActivity implements View.OnClickListener {
 
     private EditText username = null;
     private EditText password = null;
     private Button login = null;
     private Button signin = null;
     private MySocket mySocket = null;
+	private String[] permissions={Manifest.permission.CAMERA};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,16 @@ public class index extends AppCompatActivity implements View.OnClickListener {
         signin.setOnClickListener(this);
 
         mySocket = ((WuLianApplication) this.getApplication()).getMySocket();
+
+	if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+	{
+		int i = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+		if(i != PackageManager.PERMISSION_GRANTED)
+		{
+			ActivityCompat.requestPermissions(this, permissions, 321);
+		}
+		
+	}
     }
 
     public void onStop()
